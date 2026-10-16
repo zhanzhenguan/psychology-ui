@@ -265,13 +265,14 @@ onMounted(() => {
 })
 
 const handleSearch = async (formData) => {
+  // console.log('父回调查询参数', formData)
   const params = {
     ...pagination,
     ...formData
   }
-  // const data = await emotionDiaryPage(params)
-  // pagination.total = res.total
-  // tableData.value = data
+  const data = await emotionDiaryPage(params)
+  pagination.total = data.total
+  tableData.value = data.records
 }
 const handleReset = () => {
   console.log('重置')

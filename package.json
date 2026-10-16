@@ -5,8 +5,19 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:test": "vite --mode test",
     "build": "vite build",
+    "build:test": "vite build --mode test",
+    "build:prod": "vite build --mode production",
     "preview": "vite preview"
+  },
+  "//scripts": {
+    "dev": "开发环境：mode=development，加载 .env.development，/api 代理到本地后端",
+    "dev:test": "测试环境：mode=test，加载 .env.test，/api 代理到测试后端",
+    "build": "生产构建：mode=production（vite 默认），加载 .env.production，等价于 build:prod",
+    "build:test": "测试构建：mode=test，加载 .env.test，产物部署到测试环境",
+    "build:prod": "生产构建（显式指定 mode=production）：加载 .env.production",
+    "preview": "本地预览 dist 产物（非部署，仅用于构建结果校验）"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.2",
