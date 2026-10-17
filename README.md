@@ -1,30 +1,5 @@
 # psychology-ui
 
-# look at the dependencies
-(base) PS D:\psychology-ui> nvm -v
-1.2.2
-(base) PS D:\psychology-ui> node -v
-v24.14.0
-(base) PS D:\psychology-ui> npm -v
-11.9.0
-(base) PS D:\pro\psychology-ui> npm list
-psychology-ui@0.0.0 D:\psychology-ui
-├── @element-plus/icons-vue@2.3.2
-├── @microsoft/fetch-event-source@2.0.1
-├── @vitejs/plugin-vue@6.0.9
-├── @wangeditor/editor-for-vue@5.1.12
-├── @wangeditor/editor@5.1.23
-├── axios@1.20.0
-├── dayjs@1.11.23
-├── echarts@6.1.0
-├── element-plus@2.14.7
-├── pinia@4.0.3
-├── sass@1.105.1
-├── vite-plugin-vue-devtools@8.2.1
-├── vite@8.3.4
-├── vue-router@5.4.0
-└── vue@3.5.43
-
 
 This template should help get you started developing with Vue 3 in Vite.
 
@@ -63,5 +38,6 @@ npm run dev
 npm run build
 ```
 
+<img width="1362" height="909" alt="image" src="https://github.com/user-attachments/assets/a688e81d-f7a3-44c8-b062-87c84f8ff74b" />
 
 
