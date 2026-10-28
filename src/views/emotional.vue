@@ -85,7 +85,7 @@
                   :status="getEmotionScoreColor(aiData.emotionScore)"></el-progress>
               </el-descriptions-item>
               <el-descriptions-item label="风险等级">
-                <el-tag :type="getRiskLevelText(aiData.riskLevel)">{{ aiData.riskLevel }}</el-tag>
+                <el-tag :type="getRiskLevelTagType(aiData.riskLevel)">{{ getRiskLevelText(aiData.riskLevel) }}</el-tag>
               </el-descriptions-item>
               <el-descriptions-item label="情绪性质">
                 <el-tag :type="aiData.isNegative ? 'danger' : 'success'">{{ aiData.isNegative ? '消极' : '积极' }}</el-tag>
@@ -117,8 +117,8 @@
         <div class="detail-section">
           <h4>时间信息</h4>
           <el-descriptions :column="2" border>
-            <el-descriptions-item label="创建时间">{{ currentDetail.createAt }}</el-descriptions-item>
-            <el-descriptions-item label="更新时间">{{ currentDetail.updateAt }}</el-descriptions-item>
+            <el-descriptions-item label="创建时间">{{ currentDetail.createdAt }}</el-descriptions-item>
+            <el-descriptions-item label="更新时间">{{ currentDetail.updatedAt }}</el-descriptions-item>
 
           </el-descriptions>
         </div>
@@ -183,7 +183,7 @@ const getEmotionScoreColor = (score) => {
   return '#67c23a'
 
 }
-const getRiskLevelTaType = (riskLevel) => {
+const getRiskLevelTagType = (riskLevel) => {
   const riskTagMap = {
     0: 'success',
     1: 'info',

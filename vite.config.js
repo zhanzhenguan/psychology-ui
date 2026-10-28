@@ -21,7 +21,7 @@ export default defineConfig(({ mode }) => {
       },
     },
     server: {
-      port: 5173,// 开发环境端口
+      port: env.VITE_SERVER_PORT || 5173,// 开发环境端口
       open: true,// 自动打开浏览器
       proxy: {// 代理配置
         '/api': { // 目标服务器地址

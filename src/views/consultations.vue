@@ -105,7 +105,6 @@ const pagination = reactive({
   currentPage: 1,
   size: 10,
   total: 0,
-  emotionTag: ''
 })
 
 onMounted(() => {

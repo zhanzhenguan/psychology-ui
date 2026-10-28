@@ -121,6 +121,7 @@
             <div class="msg-bubble">
               <!-- AI正在思考中 -->
               <div v-if="msg.senderType === 2 && isAiTyping && !msg.content" class="typing-indicator">
+                AI 正在思考中...
                 <span class="status-dot"></span>
                 <span class="status-dot"></span>
                 <span class="status-dot"></span>

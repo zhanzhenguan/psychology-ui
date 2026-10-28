@@ -29,7 +29,7 @@ http.interceptors.request.use(
     
     const userStore = useUserStore()
     if (userStore.token) {
-      // config.headers.Authorization = `Bearer ${userStore.token}`
+      config.headers.Authorization = `Bearer ${userStore.token}`
       config.headers.token = userStore.token
       return config
     }
@@ -47,7 +47,7 @@ http.interceptors.response.use(
     if(data && typeof data === 'object' && 'code' in data) {
 
       // 业务成功
-      if (data.code === '200' || data.code === '0') {
+      if (data.code === '200' || data.code === '0' || data.code === 200 || data.code === 0) {
         return data.data   // 直接返回业务数据
       }
       

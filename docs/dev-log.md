@@ -477,3 +477,36 @@
 - **内容**：核心技术栈（Vue 3.5 + Vite 8 + Pinia + Vue Router 5 + SCSS）、外部依赖清单（element-plus / axios / echarts / wangEditor / dayjs / fetch-event-source 等，含版本与用途）、项目结构、后端通信约定、鉴权方案、统一设计配色体系、构建命令
 - **验证**：`npm run build` 通过，1.75s
 - **状态**：✅ 完成
+
+## 2026-10-14
+
+### 41. 环境变量按开发/测试/生产拆分
+
+- **背景**：原 `.env` 单文件混装所有环境配置，且 `VITE_PROXY_TARGET` 被重复定义两次（后者覆盖前者）；另发现 `repository.vue` 引用的 `VITE_BASE_URL` 从未在任何 env 文件中定义，会拼出 `undefined/xxx`。
+- **改动文件**：
+  - 改写 `.env`（改为仅存公共配置）
+  - 新增 `.env.development`
+  - 新增 `.env.test`
+  - 新增 `.env.production`
+  - 修改 `package.json`（scripts 增加 test 模式）
+- **改动内容**：
+  - `.env`（公共，所有环境加载）：`VITE_API_BASE_URL=/api`、`VITE_TIMEOUT=30000`
+  - `.env.development`（`npm run dev`，mode=development）：`VITE_PROXY_TARGET`/`VITE_BASE_URL` = `http://127.0.0.1:1235`（本地后端）
+  - `.env.test`（`npm run dev:test` / `npm run build:test`，mode=test）：指向测试后端 `http://159.75.169.224:1235`
+  - `.env.production`（`npm run build`，mode=production）：指向生产后端（当前暂填 `http://159.75.169.224:1235`，注释已标注需替换为真实生产地址）
+  - `package.json` scripts 新增 `dev:test`（`vite --mode test`）、`build:test`（`vite build --mode test`）
+  - 顺带修复 `VITE_BASE_URL` 缺失问题（三份 env 均补充定义）
+  - 修复原 `.env` 中 `VITE_PROXY_TARGET` 重复定义的覆盖问题
+- **说明**：`vite.config.js` 的 `loadEnv(mode, process.cwd(), '')` 已支持任意 mode，无需改动；`.gitignore` 仅忽略 `*.local`，三个环境文件均正常纳入版本管理（符合 Vite 约定）。
+- **验证**：`npm run build` 通过（2.17s）；`npm run build:test` 通过（2.29s，日志显示 "building client environment for test"，确认 `.env.test` 生效）
+- **状态**：✅ 完成
+
+### 42. scripts 新增生产构建脚本并为每个脚本补充注释
+
+- **背景**：需显式指定生产环境构建入口，并为各脚本说明其 mode 与加载的 env 文件；但 `package.json` 是严格 JSON，不支持 `//` 注释语法。
+- **改动文件**：`package.json`
+- **改动内容**：
+  - 新增脚本 `build:prod`（`vite build --mode production`），与 `build` 等价但显式声明 mode
+  - 采用"注释键"方案：在顶层新增 `"//scripts"` 对象，按脚本名逐一说明其 mode、加载的 env 文件与用途。npm 只读取 `scripts` 字段，其他顶层字段会被忽略，且不会出现在 `npm run` 列表中（避免了 `//` 内联注释导致 JSON 解析失败的问题）
+- **验证**：`npm run` 列表仅显示 6 个真实脚本（`//scripts` 未污染列表）；`npm run build:prod` 通过（1.88s，日志显示 "building client environment for production..."，确认加载 `.env.production`）
+- **状态**：✅ 完成
