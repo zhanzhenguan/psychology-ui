@@ -121,7 +121,6 @@
             <div class="msg-bubble">
               <!-- AI正在思考中 -->
               <div v-if="msg.senderType === 2 && isAiTyping && !msg.content" class="typing-indicator">
-                AI 正在思考中...
                 <span class="status-dot"></span>
                 <span class="status-dot"></span>
                 <span class="status-dot"></span>
@@ -223,6 +222,14 @@ const createTempSession = () => {
     }
   ]
   currentSession.value = newSessionData
+  currentEmotion.value = {
+    primaryEmotion:'中性',
+    emotionScore:50,
+    isNegative:false,
+    riskLevel:0,
+    suggestion:'情绪状态平稳',
+    improvementSuggestions:[]
+  }
   console.log('创建临时会话',currentSession.value)
 
 }
@@ -595,6 +602,7 @@ const getMoodClass  = (score)=>{
   .status-dot {
     width: 6px;
     height: 6px;
+    display: inline-block; // span 默认 inline，不设 inline-block 宽高无效
     border-radius: 50%;
     background: #67c23a;
   }
@@ -1034,6 +1042,49 @@ const getMoodClass  = (score)=>{
       color: #fff;
       border-top-right-radius: 4px;
     }
+  }
+}
+
+// AI 正在思考中指示器
+.typing-indicator {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  color: #8b949e;
+
+  // 注意：上面 .assistant-card 里的 .status-dot 被嵌套限定在助手名片内，
+  // 聊天区的圆点必须单独定义，否则命中不了
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    display: inline-block; // span 默认 inline，必须转块级才能撑开宽高
+    border-radius: 50%;
+    background: #f0b26a;
+    animation: typing-bounce 1.2s ease-in-out infinite;
+
+    &:nth-child(1) {
+      animation-delay: 0s;
+    }
+
+    &:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    &:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+  }
+}
+
+@keyframes typing-bounce {
+  0%, 60%, 100% {
+    transform: translateY(0);
+    opacity: 0.45;
+  }
+  30% {
+    transform: translateY(-4px);
+    opacity: 1;
   }
 }
 
